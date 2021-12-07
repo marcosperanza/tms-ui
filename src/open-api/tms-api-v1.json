@@ -1,0 +1,188 @@
+{
+  "swagger" : "2.0",
+  "info" : { },
+  "tags" : [ {
+    "name" : "ActivityController"
+  }, {
+    "name" : "addActivity"
+  }, {
+    "name" : "getActivities"
+  }, {
+    "name" : "getActivity"
+  }, {
+    "name" : "editActivity"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/activity" : {
+      "get" : {
+        "tags" : [ "getActivities" ],
+        "summary" : "Get the list of all activities ",
+        "description" : "",
+        "operationId" : "activities",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success|OK"
+          },
+          "204" : {
+            "description" : "No content if no activities are found"
+          },
+          "500" : {
+            "description" : "In case of error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "addActivity" ],
+        "summary" : "Add a new activity ",
+        "description" : "",
+        "operationId" : "add",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Activity"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Activity"
+            }
+          },
+          "201" : {
+            "description" : "Created"
+          },
+          "500" : {
+            "description" : "In case of error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "editActivity" ],
+        "summary" : "Edit a single activity ",
+        "description" : "",
+        "operationId" : "edit",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Activity"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success|OK",
+            "schema" : {
+              "$ref" : "#/definitions/Activity"
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "In case of error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "ActivityController" ],
+        "operationId" : "removeAll",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "headers" : { },
+            "schema" : {
+              "$ref" : "#/definitions/Activity"
+            }
+          }
+        }
+      }
+    },
+    "/activity/{id}" : {
+      "get" : {
+        "tags" : [ "getActivity" ],
+        "summary" : "Get a single activity ",
+        "description" : "",
+        "operationId" : "activity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success|OK",
+            "schema" : {
+              "$ref" : "#/definitions/Activity"
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "In case of error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "ActivityController" ],
+        "operationId" : "remove",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "headers" : { },
+            "schema" : {
+              "$ref" : "#/definitions/Activity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Activity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "done" : {
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}
