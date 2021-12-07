@@ -6,6 +6,9 @@ export const GET_ACTIVITIES = "GET_ACTIVITIES"
 export const MAKE_DONE_ACTIVITY = "MAKE_DONE_ACTIVITY"
 export const ERROR = "ERROR"
 
+export interface AddActivityRequestAction {
+    type: 'ADD_ACTIVITY_RQ'
+}
 
 export interface AddActivityAction {
     type: 'ADD_ACTIVITY'
@@ -17,7 +20,10 @@ export interface ErrorAction {
 }
 
 // Union Action Types
-export type Action = AddActivityAction | ErrorAction
+export type Action =
+    AddActivityAction |
+    AddActivityRequestAction |
+    ErrorAction
 
 
 export type DispatchType = (args: Action) => Action

@@ -7,7 +7,6 @@ type Props = {
 
 export const NewActivity: React.FC<Props> = ({ createActivity }) => {
 
-
     const [article, setArticle] = React.useState<Activity | {}>()
 
     const handleArticleData = (e: React.FormEvent<HTMLInputElement>) => {
@@ -23,22 +22,26 @@ export const NewActivity: React.FC<Props> = ({ createActivity }) => {
     }
 
     return (
-        <form onSubmit={addNewArticle} className="Add-article">
-            <input
-                type="text"
-                id="description"
-                placeholder="Title"
-                onChange={handleArticleData}
-            />
-            <input
-                type="text"
-                id="body"
-                placeholder="Description"
-                onChange={handleArticleData}
-            />
-            <button disabled={article === undefined ? true : false}>
-                Add article
-            </button>
-        </form>
+        <div>
+            <button id="add-task" />
+            <form onSubmit={addNewArticle} className="Add-article">
+                <input
+                    type="text"
+                    id="description"
+                    placeholder="Title"
+                    onChange={handleArticleData}
+                />
+                <input
+                    type="text"
+                    id="body"
+                    placeholder="Description"
+                    onChange={handleArticleData}
+                />
+                <button disabled={article === undefined ? true : false}>
+                    Add article
+                </button>
+            </form>
+        </div>
+
     )
 }
