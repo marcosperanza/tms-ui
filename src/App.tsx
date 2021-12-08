@@ -3,8 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import {useDispatch} from "react-redux";
 import {addActivity} from "./store/actionCreators";
-import {NewActivity} from "./components/NewActivity";
 import {Activity} from "./generated/api";
+import NewActivity from "./components/NewActivity";
 
 function App() {
 

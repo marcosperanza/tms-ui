@@ -1,58 +1,94 @@
-import React, { useState } from 'react';
+import React, {Component, useState} from 'react';
 import {Activity} from "../generated/api";
 import { Button } from 'primereact/button';
 import {InputText} from "primereact/inputtext";
 import {InputMask} from "primereact/inputmask";
+import PropTypes from "prop-types";
 
 type Props = {
     createActivity: (activity: Activity | any) => void
 }
 
-export const NewActivity: React.FC<Props> = ({ createActivity }) => {
+type NewActivityState = {
+    date: string,
+    description: string,
+    showNewDialogue: boolean
+}
 
-    const [description, setDescription] = useState('');
-    const [date, setDate] = useState('');
-    const [showNewDialogue, setshowNewDialogue] = useState(false);
+export default class NewActivity extends React.Component<Props, NewActivityState> {
 
-    const addNewActivity = (e: React.FormEvent) => {
-        e.preventDefault()
-        createActivity({description, date: 1} as Activity)
-        setshowNewDialogue(!showNewDialogue);
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            date: '',
+            description: '',
+            showNewDialogue: false
+        }
     }
 
-    function showNew() {
-        setshowNewDialogue(!showNewDialogue);
+    addNewActivity = ()  => {
+        const act: Activity = {
+            id: '',
+            description: this.state.description,
+            date: this.covertToLong(this.state.date),
+            done: false
+        }
 
+        this.props.createActivity(act);
     }
 
-    return (
-        <div className="flex flex-row flex-wrap ">
-            { !showNewDialogue &&
-                <Button label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={showNew}/>
-            }
+    private covertToLong(date: string) {
+        return 0;
+    }
 
-            {
-                showNewDialogue &&
-              <div className="shadow-4 p-2 border-round w-full">
-                <h2 className="mx-auto">Add Task</h2>
-                <div className="mt-4">
-                    <label htmlFor="description">Description</label>
-                    <InputText className="w-full" id="description" value={description}
-                               onChange={(e) => setDescription(e.target.value)}/>
-                </div>
-                <div className="mt-4">
-                    <label htmlFor="date">Date</label>
-                    <InputMask className="w-full m" id="date" mask="9999-99-99" value={date}
-                               slotChar="____-__-__" onChange={(e) => setDate(e.value)}/>
-                </div>
+    toggle = () =>  {
+        this.setState(prevState => ({
+            showNewDialogue: !prevState.showNewDialogue
+        }));
+    }
 
-                <Button label="Save"
-                        disabled={!(!!description && !!date)}
-                        className="float-right p-button-sm mt-2 p-button-outlined p-button-secondary"
-                        onClick={addNewActivity}/>
+    setDescription = (desc: string) => {
+        this.setState(prevState => ({
+            description: desc
+        }));
+    }
 
-            </div>}
-        </div>
+    setDate = (desc: string) => {
+        this.setState(prevState => ({
+            date: desc
+        }));
+    }
 
-    )
+
+    render() {
+        return (
+            <div className="flex flex-row flex-wrap ">
+                { !this.state.showNewDialogue &&
+                <Button label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={this.toggle}/>
+                }
+
+                {
+                    this.state.showNewDialogue &&
+                    <div id="newActivityDialogue" className="shadow-4 p-2 border-round w-full">
+                        <h2 className="mx-auto">Add Task</h2>
+                        <div className="mt-4">
+                            <label htmlFor="description">Description</label>
+                            <InputText className="w-full" id="description" value={this.state.description}
+                                       onChange={(e) => this.setDescription(e.target.value)}/>
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="date">Date</label>
+                            <InputMask className="w-full m" id="date" mask="9999-99-99" value={this.state.date}
+                                       slotChar="____-__-__" onChange={(e) => this.setDate(e.value)}/>
+                        </div>
+
+                        <Button label="Save"
+                                disabled={!(!!this.state.description && !!this.state.date)}
+                                className="float-right p-button-sm mt-2 p-button-outlined p-button-secondary"
+                                onClick={this.addNewActivity}/>
+
+                    </div>}
+            </div>);
+    }
+
 }
