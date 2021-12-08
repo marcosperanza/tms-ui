@@ -1,11 +1,12 @@
 import React from 'react';
 import ActivityItem from "./ActivityItem";
 import {Activity} from "../generated/api";
-import {connect} from "react-redux";
-import {ActivityState} from "../store/reducer";
 
 type Props = {
     activities: Activity[];
+    fetchActivities: () => void,
+    doneToggle: (a: Activity) => void,
+
 }
 
 type ActivityListState = {
@@ -19,11 +20,15 @@ export class ActivityList extends React.Component<Props, ActivityListState> {
         }
     }
 
+    componentDidMount() {
+        this.props.fetchActivities();
+    }
+
     render() {
         return (
             <div id="activity-list" className="flex flex-row-reverse flex-wrap shadow-2 my-3 p-2 border-round">
-                {this.props.activities.map(act =>
-                    <ActivityItem description={act.description!} date={act.date!} done={act.done!} id={act.id!} />
+                {this.props.activities.map((act, index) =>
+                    <ActivityItem key={index} activity={act!} doneToggle={this.props.doneToggle}/>
                 )}
             </div>);
     }

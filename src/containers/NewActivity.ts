@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {NewActivity} from "../components/NewActivity";
 
 const mapStateToProps = (state: ActivityState) => ({
-    progress: state.progress,
+    progress: state.progress.add,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
