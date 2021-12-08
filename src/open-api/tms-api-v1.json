@@ -1,6 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : { },
+  "basePath" : "/api",
   "tags" : [ {
     "name" : "ActivityController"
   }, {
@@ -8,9 +9,9 @@
   }, {
     "name" : "getActivities"
   }, {
-    "name" : "getActivity"
-  }, {
     "name" : "editActivity"
+  }, {
+    "name" : "getActivity"
   } ],
   "schemes" : [ "http" ],
   "paths" : {

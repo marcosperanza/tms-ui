@@ -42,8 +42,8 @@ export const NewActivity: React.FC<Props> = ({ createActivity }) => {
                 </div>
                 <div className="mt-4">
                     <label htmlFor="date">Date</label>
-                    <InputMask className="w-full m" id="date" mask="9999-99-99" value={date} placeholder="99/99/9999"
-                               slotChar="yyyy-mm-dd" onChange={(e) => setDate(e.value)}/>
+                    <InputMask className="w-full m" id="date" mask="9999-99-99" value={date}
+                               slotChar="____-__-__" onChange={(e) => setDate(e.value)}/>
                 </div>
 
                 <Button label="Save"

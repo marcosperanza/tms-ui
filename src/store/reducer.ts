@@ -1,12 +1,14 @@
 import {Activity} from "../generated/api";
-import {Action, ADD_ACTIVITY, AddActivityAction} from "../type";
+import {Action, ADD_ACTIVITY, AddActivityAction, ERROR} from "../type";
 
 export type ActivityState = {
-    activities: Activity[]
+    activities: Activity[],
+    error: string
 }
 
 const initialState: ActivityState = {
     activities: [],
+    error: ''
 }
 
 
@@ -26,6 +28,12 @@ const reducer = (
                 ...state,
                 activities: state.activities.concat(newArticle),
             }
+        case ERROR:
+            return {
+                ...state,
+                error: action.payload.errorMessage,
+            }
+
 
     }
     return state
