@@ -3,11 +3,13 @@ import {Action, ADD_ACTIVITY, AddActivityAction, ERROR} from "../type";
 
 export type ActivityState = {
     activities: Activity[],
+    progress: boolean,
     error: string
 }
 
 const initialState: ActivityState = {
     activities: [],
+    progress: false,
     error: ''
 }
 
@@ -17,6 +19,11 @@ const reducer = (
     action: Action
 ): ActivityState => {
     switch (action.type) {
+        case "ADD_ACTIVITY_RQ":
+            return {
+                ...state,
+                progress: true
+            }
         case ADD_ACTIVITY:
             const newArticle: Activity = {
                 id: (action as AddActivityAction).payload.id,
@@ -26,7 +33,8 @@ const reducer = (
             }
             return {
                 ...state,
-                activities: state.activities.concat(newArticle),
+                progress: false,
+                activities: state.activities.concat(newArticle).sort((a1,a2) => a2.date! - a1.date!),
             }
         case ERROR:
             return {

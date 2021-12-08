@@ -1,22 +1,27 @@
-import React, {Component, useState} from 'react';
+import React, {Dispatch} from 'react';
 import {Activity} from "../generated/api";
-import { Button } from 'primereact/button';
+import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
 import {InputMask} from "primereact/inputmask";
 import isMatch from 'date-fns/isMatch'
+import {ActivityState} from "../store/reducer";
+import {connect} from "react-redux";
+import {addActivity} from "../store/actionCreators";
+import classNames from "classnames";
 
 type Props = {
-    createActivity: (activity: Activity | any) => void
+    createActivity: (activity: Activity | any) => void,
+    progress: boolean
 }
 
 type NewActivityState = {
     date: string,
     description: string,
     showNewDialogue: boolean,
-    error: boolean
+    error: boolean,
 }
 
-export default class NewActivity extends React.Component<Props, NewActivityState> {
+export class NewActivity extends React.Component<Props, NewActivityState> {
 
     constructor(props: Props) {
         super(props);
@@ -24,13 +29,12 @@ export default class NewActivity extends React.Component<Props, NewActivityState
             date: '',
             description: '',
             showNewDialogue: false,
-            error: false
+            error: false,
         }
     }
 
     addNewActivity = ()  => {
         const act: Activity = {
-            id: '',
             description: this.state.description,
             date: this.covertToLong(this.state.date),
             done: false
@@ -40,31 +44,28 @@ export default class NewActivity extends React.Component<Props, NewActivityState
     }
 
     covertToLong = (date: string) => {
-        const d = new Date(date);
-        return d.getTime();
+        return Date.parse(date);
     }
 
     toggle = () =>  {
-        this.setState(prevState => ({
-            showNewDialogue: !prevState.showNewDialogue
-        }));
+        let prevState: boolean = this.state.showNewDialogue;
+        this.setState({
+            showNewDialogue: !prevState
+        });
     }
 
     setDescription = (desc: string) => {
-        this.setState(prevState => ({
+        this.setState({
             description: desc
-        }));
+        });
     }
 
-    setDate = (desc: string) => {
-        this.setState(prevState => {
-            let err = false;
-            if (desc !== '' && !isMatch(desc, 'yyyy-mm-dd')) {
-                err = true;
-            }
-
-            return ({date: desc, error: err});
-        });
+     public setDate = (desc: string) => {
+         let err = false;
+         if (desc !== '' && !isMatch(desc, 'yyyy-mm-dd')) {
+             err = true;
+         }
+         this.setState({date: desc, error: err});
     }
 
 
@@ -77,28 +78,33 @@ export default class NewActivity extends React.Component<Props, NewActivityState
 
                 {
                     this.state.showNewDialogue &&
-                    <div id="newActivityDialogue" className="shadow-4 p-2 border-round w-full">
+                    <div id="newActivityDialogue" className="shadow-2 p-2 border-round w-full">
                         <h2 className="mx-auto">Add Task</h2>
                         <div className="mt-4">
                             <label htmlFor="description">Description</label>
-                            <InputText className="w-full" id="description" value={this.state.description}
+                            <InputText className="w-full" id="description"
+                                       value={this.state.description}
                                        onChange={(e) => this.setDescription(e.target.value)}/>
                         </div>
                         <div className="mt-4">
                             <label htmlFor="date">Date</label>
-                            <InputMask  id="date"
-                                        className={'w-full ' + (this.state.error ? 'p-invalid': '')}
-                                        mask="9999-99-99" value={this.state.date}
-                                        slotChar="____-__-__"
-                                        onChange={(e) => this.setDate(e.value)}/>
+                            <InputText  id="date"
+                                        className={classNames({
+                                            'w-full': true,
+                                            'p-invalid': this.state.error
+                                        })}
+                                        onChange={(e) => this.setDate(e.target.value)}/>
                         </div>
 
                         <Button label="Save"
+                                id={'save-activity'}
+                                loading={this.props.progress}
                                 disabled={!(!!this.state.description && !!this.state.date && !this.state.error)}
                                 className="float-right p-button-sm mt-2 p-button-outlined p-button-secondary"
                                 onClick={this.addNewActivity}/>
 
-                    </div>}
+                    </div>
+                }
             </div>);
     }
 

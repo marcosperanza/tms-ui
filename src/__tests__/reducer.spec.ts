@@ -1,4 +1,4 @@
-import reducer from "./reducer";
+import reducer from "../store/reducer";
 
 
 describe('activity reducer', () => {
@@ -8,7 +8,8 @@ describe('activity reducer', () => {
         ).toEqual(
             {
                 activities: [],
-                error: ''
+                error: '',
+                progress: false
             }
         )
     })
@@ -20,7 +21,9 @@ describe('activity reducer', () => {
         ).toEqual(
             {
                 activities: [payload],
-                error: ''
+                error: '',
+                progress: false
+
             }
         )
     })
@@ -32,7 +35,9 @@ describe('activity reducer', () => {
         ).toEqual(
             {
                 activities: [],
-                error: 'fake error'
+                error: 'fake error',
+                progress: false
+
             }
         )
     })

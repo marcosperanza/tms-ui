@@ -5,3 +5,14 @@
 .float-right {
   float: right !important;
 }
+
+
+.activity-item #description-item {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.activity-item #date-item {
+    font-size: small;
+    color: gray;
+}
