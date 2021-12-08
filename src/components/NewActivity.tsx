@@ -3,7 +3,7 @@ import {Activity} from "../generated/api";
 import { Button } from 'primereact/button';
 import {InputText} from "primereact/inputtext";
 import {InputMask} from "primereact/inputmask";
-import PropTypes from "prop-types";
+import isMatch from 'date-fns/isMatch'
 
 type Props = {
     createActivity: (activity: Activity | any) => void
@@ -12,7 +12,8 @@ type Props = {
 type NewActivityState = {
     date: string,
     description: string,
-    showNewDialogue: boolean
+    showNewDialogue: boolean,
+    error: boolean
 }
 
 export default class NewActivity extends React.Component<Props, NewActivityState> {
@@ -22,7 +23,8 @@ export default class NewActivity extends React.Component<Props, NewActivityState
         this.state = {
             date: '',
             description: '',
-            showNewDialogue: false
+            showNewDialogue: false,
+            error: false
         }
     }
 
@@ -37,8 +39,9 @@ export default class NewActivity extends React.Component<Props, NewActivityState
         this.props.createActivity(act);
     }
 
-    private covertToLong(date: string) {
-        return 0;
+    covertToLong = (date: string) => {
+        const d = new Date(date);
+        return d.getTime();
     }
 
     toggle = () =>  {
@@ -54,9 +57,14 @@ export default class NewActivity extends React.Component<Props, NewActivityState
     }
 
     setDate = (desc: string) => {
-        this.setState(prevState => ({
-            date: desc
-        }));
+        this.setState(prevState => {
+            let err = false;
+            if (desc !== '' && !isMatch(desc, 'yyyy-mm-dd')) {
+                err = true;
+            }
+
+            return ({date: desc, error: err});
+        });
     }
 
 
@@ -64,7 +72,7 @@ export default class NewActivity extends React.Component<Props, NewActivityState
         return (
             <div className="flex flex-row flex-wrap ">
                 { !this.state.showNewDialogue &&
-                <Button label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={this.toggle}/>
+                <Button id="open-new-activity-dialogue" label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={this.toggle}/>
                 }
 
                 {
@@ -78,12 +86,15 @@ export default class NewActivity extends React.Component<Props, NewActivityState
                         </div>
                         <div className="mt-4">
                             <label htmlFor="date">Date</label>
-                            <InputMask className="w-full m" id="date" mask="9999-99-99" value={this.state.date}
-                                       slotChar="____-__-__" onChange={(e) => this.setDate(e.value)}/>
+                            <InputMask  id="date"
+                                        className={'w-full ' + (this.state.error ? 'p-invalid': '')}
+                                        mask="9999-99-99" value={this.state.date}
+                                        slotChar="____-__-__"
+                                        onChange={(e) => this.setDate(e.value)}/>
                         </div>
 
                         <Button label="Save"
-                                disabled={!(!!this.state.description && !!this.state.date)}
+                                disabled={!(!!this.state.description && !!this.state.date && !this.state.error)}
                                 className="float-right p-button-sm mt-2 p-button-outlined p-button-secondary"
                                 onClick={this.addNewActivity}/>
 

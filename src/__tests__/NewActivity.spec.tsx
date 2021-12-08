@@ -9,29 +9,37 @@ describe('<NewActivity>', function() {
         function s() {
         }
         const container = create(<NewActivity  createActivity={s}/>);
-        let instance = container.getInstance();
+        expect(container.root).not.toBeNull();
+    });
+
+    it('should set error in case of invalid date', function() {
+        function s() {
+        }
+        const container = create(<NewActivity  createActivity={s}/>);
+        expect(container.root).not.toBeNull();
+        const instance: NewActivity = container.getInstance();
+        instance.setDate('9999-99-192');
+
         expect({
-            date: '',
+            date: '9999-99-192',
             description: '',
-            showNewDialogue: false
+            showNewDialogue: false,
+            error: true,
+
         }).toEqual(instance.state);
+
+
     });
 
     it('should open the dialogue on toggle', function() {
         function s() {
         }
         const container = create(<NewActivity  createActivity={s}/>);
-        const instance: NewActivity = container.getInstance();
 
         expect(container.root.findAllByProps({id: "newActivityDialogue"}).length).toEqual(0);
 
-        instance.toggle();
-
-        expect({
-            date: '',
-            description: '',
-            showNewDialogue: true
-        }).toEqual(instance.state);
+        const button = container.root.findByProps({id: "open-new-activity-dialogue"});
+        button.props.onClick();
 
         expect(container.root.findAllByProps({id: "newActivityDialogue"}).length).toEqual(1);
 
@@ -44,21 +52,22 @@ describe('<NewActivity>', function() {
         }
         const container = create(<NewActivity  createActivity={s}/>);
         const instance: NewActivity = container.getInstance();
-        instance.setDate("1111-22-22");
+        instance.setDate("1979-08-27");
         instance.setDescription("test");
 
         instance.toggle();
         instance.addNewActivity();
 
         expect({
-            date: '1111-22-22',
+            date: '1979-08-27',
             description: 'test',
-            showNewDialogue: true
+            showNewDialogue: true,
+            error: false,
+
         }).toEqual(instance.state);
 
         expect(exp.description).toEqual('test');
-
-
+        expect(exp.date).toEqual(304560000000);
 
     });
 
