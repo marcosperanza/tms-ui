@@ -1,5 +1,8 @@
-import * as React from "react"
+import React, { useState } from 'react';
 import {Activity} from "../generated/api";
+import { Button } from 'primereact/button';
+import {InputText} from "primereact/inputtext";
+import {InputMask} from "primereact/inputmask";
 
 type Props = {
     createActivity: (activity: Activity | any) => void
@@ -7,40 +10,48 @@ type Props = {
 
 export const NewActivity: React.FC<Props> = ({ createActivity }) => {
 
-    const [article, setArticle] = React.useState<Activity | {}>()
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
+    const [showNewDialogue, setshowNewDialogue] = useState(false);
 
-    const handleArticleData = (e: React.FormEvent<HTMLInputElement>) => {
-        setArticle({
-            ...article,
-            [e.currentTarget.id]: e.currentTarget.value,
-        })
+    const addNewActivity = (e: React.FormEvent) => {
+        e.preventDefault()
+        createActivity({description, date: 1} as Activity)
+        setshowNewDialogue(!showNewDialogue);
     }
 
-    const addNewArticle = (e: React.FormEvent) => {
-        e.preventDefault()
-        createActivity(article)
+    function showNew() {
+        setshowNewDialogue(!showNewDialogue);
+
     }
 
     return (
-        <div>
-            <button id="add-task" />
-            <form onSubmit={addNewArticle} className="Add-article">
-                <input
-                    type="text"
-                    id="description"
-                    placeholder="Title"
-                    onChange={handleArticleData}
-                />
-                <input
-                    type="text"
-                    id="body"
-                    placeholder="Description"
-                    onChange={handleArticleData}
-                />
-                <button disabled={article === undefined ? true : false}>
-                    Add article
-                </button>
-            </form>
+        <div className="flex flex-row flex-wrap ">
+            { !showNewDialogue &&
+                <Button label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={showNew}/>
+            }
+
+            {
+                showNewDialogue &&
+              <div className="shadow-4 p-2 border-round w-full">
+                <h2 className="mx-auto">Add Task</h2>
+                <div className="mt-4">
+                    <label htmlFor="description">Description</label>
+                    <InputText className="w-full" id="description" value={description}
+                               onChange={(e) => setDescription(e.target.value)}/>
+                </div>
+                <div className="mt-4">
+                    <label htmlFor="date">Date</label>
+                    <InputMask className="w-full m" id="date" mask="9999-99-99" value={date} placeholder="99/99/9999"
+                               slotChar="yyyy-mm-dd" onChange={(e) => setDate(e.value)}/>
+                </div>
+
+                <Button label="Save"
+                        disabled={!(!!description && !!date)}
+                        className="float-right p-button-sm mt-2 p-button-outlined p-button-secondary"
+                        onClick={addNewActivity}/>
+
+            </div>}
         </div>
 
     )
