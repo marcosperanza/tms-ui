@@ -4,20 +4,12 @@
   "basePath" : "/api",
   "tags" : [ {
     "name" : "ActivityController"
-  }, {
-    "name" : "addActivity"
-  }, {
-    "name" : "getActivities"
-  }, {
-    "name" : "editActivity"
-  }, {
-    "name" : "getActivity"
   } ],
   "schemes" : [ "http" ],
   "paths" : {
     "/activity" : {
       "get" : {
-        "tags" : [ "getActivities" ],
+        "tags" : [ "ActivityController" ],
         "summary" : "Get the list of all activities ",
         "description" : "",
         "operationId" : "activities",
@@ -37,7 +29,7 @@
         }
       },
       "post" : {
-        "tags" : [ "addActivity" ],
+        "tags" : [ "ActivityController" ],
         "summary" : "Add a new activity ",
         "description" : "",
         "operationId" : "add",
@@ -67,7 +59,7 @@
         }
       },
       "put" : {
-        "tags" : [ "editActivity" ],
+        "tags" : [ "ActivityController" ],
         "summary" : "Edit a single activity ",
         "description" : "",
         "operationId" : "edit",
@@ -98,24 +90,29 @@
       },
       "delete" : {
         "tags" : [ "ActivityController" ],
+        "summary" : "Remove all activities",
+        "description" : "",
         "operationId" : "removeAll",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "headers" : { },
+            "description" : "Success|OK: number of deleter activities",
             "schema" : {
-              "$ref" : "#/definitions/Activity"
+              "type" : "integer",
+              "format" : "int32"
             }
+          },
+          "500" : {
+            "description" : "In case of error"
           }
         }
       }
     },
     "/activity/{id}" : {
       "get" : {
-        "tags" : [ "getActivity" ],
+        "tags" : [ "ActivityController" ],
         "summary" : "Get a single activity ",
         "description" : "",
         "operationId" : "activity",
@@ -144,6 +141,8 @@
       },
       "delete" : {
         "tags" : [ "ActivityController" ],
+        "summary" : "Remove a single activity ",
+        "description" : "",
         "operationId" : "remove",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -151,16 +150,20 @@
           "name" : "id",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int32"
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "headers" : { },
+            "description" : "Success|OK",
             "schema" : {
               "$ref" : "#/definitions/Activity"
             }
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "500" : {
+            "description" : "In case of error"
           }
         }
       }

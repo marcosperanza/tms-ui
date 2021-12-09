@@ -16,7 +16,7 @@ export type ActivityState = {
         fetch: boolean,
         edit: boolean
     },
-    error: string
+    error: any
 }
 
 const initialState: ActivityState = {
@@ -26,7 +26,7 @@ const initialState: ActivityState = {
         edit: false,
         fetch: false,
     },
-    error: ''
+    error: undefined
 }
 
 
@@ -109,10 +109,14 @@ const reducer = (
         case ERROR:
             return {
                 ...state,
-                error: action.payload.errorMessage,
+                error: action.payload,
+                progress: {
+                    ...state.progress,
+                    add: false,
+                    edit: false,
+                    fetch: false
+                },
             }
-
-
     }
     return state
 }

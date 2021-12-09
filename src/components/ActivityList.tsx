@@ -1,6 +1,7 @@
 import React from 'react';
 import ActivityItem from "./ActivityItem";
 import {Activity} from "../generated/api";
+import classNames from "classnames";
 
 type Props = {
     activities: Activity[];
@@ -26,10 +27,21 @@ export class ActivityList extends React.Component<Props, ActivityListState> {
 
     render() {
         return (
-            <div id="activity-list" className="flex flex-row-reverse flex-wrap shadow-2 my-3 p-2 border-round">
-                {this.props.activities.map((act, index) =>
+            <div id="activity-list" className={classNames({
+                'flex': true,
+                'flex-wrap': true,
+                'shadow-2': this.props.activities.length > 0,
+                'my-3': true,
+                'border-round': this.props.activities.length > 0
+                }
+            )}>
+                {this.props.activities.length > 0 && this.props.activities.map((act, index) =>
                     <ActivityItem key={index} activity={act!} doneToggle={this.props.doneToggle}/>
                 )}
+                {this.props.activities.length === 0 &&
+                <div className={'mx-auto'}> No activity found.</div>
+
+                }
             </div>);
     }
 
