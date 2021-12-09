@@ -14,7 +14,8 @@ export const addActivity = (activity: Activity, dispatch: Dispatch<any>) => {
 export const fetchActivities = (dispatch: Dispatch<any>) => {
     dispatch({type: "FETCH_ACTIVITY_RQ"})
     ActivityControllerService.activities()
-        .then((value: Activity[]) => dispatch({type: "SET_ACTIVITIES", payload: value}))
+        // value can be undefined: the rest return 204 (no content)
+        .then((value: Activity[]) => dispatch({type: "SET_ACTIVITIES", payload: !value ? [] : value  }))
         .catch(reason => dispatch({type: "ERROR", payload: reason}))
 }
 

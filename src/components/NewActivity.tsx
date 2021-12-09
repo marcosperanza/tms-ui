@@ -75,7 +75,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
 
     public setDate = (desc: string) => {
         let err = false;
-        if (desc !== '' && !isMatch(desc, 'yyyy-mm-dd')) {
+        if (desc !== '' && !isMatch(desc, 'yyyy-MM-dd')) {
             err = true;
         }
         this.setState({date: desc, error: err});
@@ -104,6 +104,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                         <div className="mt-4">
                             <label htmlFor="date">Date</label>
                             <InputText  id="date"
+                                        placeholder={'yyyy-mm-dd'}
                                         className={classNames({
                                             'w-full': true,
                                             'p-invalid': this.state.error

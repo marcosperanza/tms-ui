@@ -19,7 +19,7 @@ export type ActivityState = {
     error: any
 }
 
-const initialState: ActivityState = {
+export const initialState: ActivityState = {
     activities: [],
     progress: {
         add: false,
@@ -76,6 +76,7 @@ const reducer = (
 
             return {
                 ...state,
+                error: undefined,
                 progress: {
                     ...state.progress,
                     edit: false
@@ -85,6 +86,7 @@ const reducer = (
         case SET_ACTIVITIES:
             return {
                 ...state,
+                error: undefined,
                 progress: {
                     ...state.progress,
                     fetch: false

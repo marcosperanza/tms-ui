@@ -32,6 +32,7 @@ export class ActivityList extends React.Component<Props, ActivityListState> {
                 'flex-wrap': true,
                 'shadow-2': this.props.activities.length > 0,
                 'my-3': true,
+                'px-2': true,
                 'border-round': this.props.activities.length > 0
                 }
             )}>
