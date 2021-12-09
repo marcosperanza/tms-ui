@@ -84,7 +84,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
 
     render() {
         return (
-            <div className="flex flex-row flex-wrap mt-6">
+            <div className="flex flex-row justify-content-end flex-wrap mt-6">
                 <Toast ref={this.toastBL} position="bottom-left" />
 
                 { !this.state.showNewDialogue &&

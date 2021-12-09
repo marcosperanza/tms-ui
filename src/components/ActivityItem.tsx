@@ -1,6 +1,7 @@
 import React from 'react';
 import {Checkbox} from "primereact/checkbox";
 import {Activity} from "../generated/api";
+import {format} from "date-fns";
 
 type Props = {
     activity: Activity
@@ -16,10 +17,10 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
 
 
     longToString = (date?: number) => {
-        if (!!date) {
+        if (!date) {
             return 'unknown';
         }
-        return new Date(date!).toLocaleDateString();
+        return format(new Date(date!), 'yyyy-MM-dd');
     }
 
     setChecked = (checked: boolean) => {
@@ -38,7 +39,7 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
                         {this.props.activity.description}
                     </div>
                     <div className="date-item my-2">
-                        <span><i className="pi pi-calendar p-mr-2"/> {this.longToString(this.props.activity.date)}</span>
+                        <i className="pi pi-calendar p-mr-2"/> <span className={"date"}>{this.longToString(this.props.activity.date)}</span>
                     </div>
                 </div>
                 <div className="done-block p-field-checkbox my-auto">
