@@ -52,7 +52,7 @@ It uses an envinonment variable `TMS_SERVICES` that must be used for redirect th
 ```
 npm install
 npm run build
-docker build -t marcosperanza79/tms-ui:1 -f Dockerfile .
+docker build -t marcosperanza79/tms-ui:latest -f Dockerfile .
 ```
 
 

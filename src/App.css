@@ -26,10 +26,21 @@
     height: 40px;
     background-color: var(--primary-color);
 }
+.title {
+    color: var(--surface-0);
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+}
 
 .loading {
     background-color: var(--surface-50);
 
+}
+
+.done {
+    color: var(--green-400);
 }
 
 @media screen and (max-width: 768px) {

@@ -52,7 +52,8 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
                "flex": true,
                "flex-nowrap": true,
                "justify-content-between": true,
-               "loading": this.isLoading()
+               "loading": this.isLoading(),
+               "done": this.props.activity.done
             })}>
                 <div className="description-block flex flex-column flex-nowrap">
                     <div className="description-item" >
