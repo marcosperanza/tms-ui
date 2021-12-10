@@ -6,7 +6,7 @@ import NewActivity from "./containers/NewActivity";
 class App extends React.Component {
     render() {
         return (
-            <div className="md:w-6 m-auto">
+            <div className="md:w-6 m-auto p-2">
                 <NewActivity  />
                 <ActivityList />
             </div>);

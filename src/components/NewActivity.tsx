@@ -105,7 +105,12 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
     renderFooter = () => {
         return (
             <div>
-                <Button disabled={!this.state.date} label="Done" icon="pi pi-check" onClick={() =>  this.onHide()} autoFocus />
+                <Button
+                    disabled={!this.state.date}
+                    label="Done"
+                    icon="pi pi-check"
+                    className={'p-button-sm p-button-outlined'}
+                    onClick={() =>  this.onHide()} autoFocus />
             </div>
         );
     }
@@ -148,7 +153,13 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                 {
                     this.state.showNewDialogue &&
                     <div id="newActivityDialogue" className="shadow-2 p-2 border-round w-full">
-                        <h2 className="mx-auto">Add Task</h2>
+                        <div className={'flex flex-nowrap justify-content-between'}>
+                            <h3 className="float-right">Add Task</h3>
+                            <Button icon="pi pi-angle-up"
+                                    className="p-button-rounded p-button-text my-auto"
+                                    onClick={this.toggle}
+                            />
+                        </div>
                         <div className="mt-4">
                             <label htmlFor="description">Description</label>
                             <InputText className="w-full" id="description"
@@ -172,7 +183,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                                            })}
                                            onChange={(e) => this.setDate(e.value)}/>
                                 <Button  className={'no-round-border-left'}
-                                         icon="pi pi-external-link"
+                                         icon="pi pi-calendar"
                                          onClick={() => this.onShowCal()}/>
                                 <Dialog header="Header" visible={this.state.showCal}
                                         maximizable
@@ -191,7 +202,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                                 id={'save-activity'}
                                 loading={this.props.progress}
                                 disabled={!(!!this.state.description && !!this.state.date && !this.state.error)}
-                                className="float-right p-button-sm mt-2 p-button-outlined p-button-secondary"
+                                className="float-right p-button-sm mt-2 p-button-outlined p-button-primary"
                                 onClick={this.addNewActivity}/>
 
                     </div>
