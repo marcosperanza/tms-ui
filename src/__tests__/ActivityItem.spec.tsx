@@ -21,11 +21,31 @@ describe('ActivityItem suite', () => {
         let instance: NewActivity;
         let container: ReactElement;
         const renderer = createRenderer()
-        renderer.render(<ActivityItem activity={activity} doneToggle={doneToggle}/>);
+        renderer.render(<ActivityItem
+                            activity={activity}
+                            doneToggle={doneToggle}
+                            removeActivity={() => {}}
+                            loading={{
+                                remove: [],
+                                edit: [],
+                                fetch: false,
+                                add: false
+                            }}
+        />);
         container = renderer.getRenderOutput();
         instance = renderer.getMountedInstance();
 
-        let render1 = create((<ActivityItem activity={activity} doneToggle={doneToggle}/>));
+        let render1 = create((<ActivityItem activity={activity}
+                                            doneToggle={doneToggle}
+                                            removeActivity={() => {}}
+                                            loading={{
+                                                remove: [],
+                                                edit: [],
+                                                fetch: false,
+                                                add: false
+                                            }}
+
+        />));
         return [container, instance, render1];
     }
 

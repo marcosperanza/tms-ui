@@ -3,12 +3,14 @@ import {Checkbox} from "primereact/checkbox";
 import {Activity} from "../generated/api";
 import {format} from "date-fns";
 import {Button} from "primereact/button";
+import {ProgressInfo} from "../store/reducer";
+import classNames from "classnames";
 
 type Props = {
     activity: Activity
     doneToggle: (a: Activity) => void,
     removeActivity: (a: Activity) => void,
-
+    loading: ProgressInfo,
 }
 
 type ActivityItemState = {
@@ -33,9 +35,25 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
         this.props.doneToggle(a);
     }
 
+    isLoading = () => {
+        return this.props.loading.edit.indexOf(this.props.activity.id!) !== -1
+                || this.props.loading.remove.indexOf(this.props.activity.id!) !== -1
+    }
+
     render() {
         return (
-            <div className="activity-item shadow-2 my-2 p-4 border-round w-full flex flex-row flex-nowrap justify-content-between">
+            <div className={classNames({
+               "activity-item": true,
+               "shadow-2": true,
+               "my-2": true,
+               "p-4": true,
+               "border-round": true,
+               "w-full": true,
+               "flex": true,
+               "flex-nowrap": true,
+               "justify-content-between": true,
+               "loading": this.isLoading()
+            })}>
                 <div className="description-block flex flex-column flex-nowrap">
                     <div className="description-item" >
                         {this.props.activity.description}
@@ -46,11 +64,14 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
                 </div>
                 <div className="done-block my-auto flex flex-row ">
                     <Checkbox inputId="binary"
+                              disabled={this.isLoading()}
                               className={'my-auto'}
                               checked={this.props.activity.done}
                               onChange={e => this.setChecked(e.checked)} />
 
                     <Button icon="pi pi-times"
+                            disabled={this.isLoading()}
+
                             className="p-button-rounded p-button-text my-auto p-button-danger"
                             onClick={(event) => this.props.removeActivity(this.props.activity) }
                     />

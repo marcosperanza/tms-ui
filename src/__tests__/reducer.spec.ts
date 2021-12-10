@@ -10,9 +10,10 @@ describe('activity reducer', () => {
                 activities: [],
                 error: undefined,
                 progress: {
-                    add: false,
-                    edit: false,
+                    remove: [],
+                    edit: [],
                     fetch: false,
+                    add: false
                 }
             }
         )
@@ -27,9 +28,10 @@ describe('activity reducer', () => {
                 activities: [payload],
                 error: undefined,
                 progress: {
-                    add: false,
-                    edit: false,
-                    fetch: false
+                    remove: [],
+                    edit: [],
+                    fetch: false,
+                    add: false
                 }
 
             }
@@ -45,7 +47,8 @@ describe('activity reducer', () => {
                 error: undefined,
                 progress: {
                     add: true,
-                    edit: false,
+                    remove: [],
+                    edit: [],
                     fetch: false
                 }
 
@@ -62,7 +65,8 @@ describe('activity reducer', () => {
                 error: undefined,
                 progress: {
                     add: false,
-                    edit: false,
+                    remove: [],
+                    edit: [],
                     fetch: true
                 }
 
@@ -73,14 +77,15 @@ describe('activity reducer', () => {
 
     it('should handle EDIT_ACTIVITY_RQ', () => {
         expect(
-            reducer(undefined,  {type: "EDIT_ACTIVITY_RQ"})
+            reducer(undefined,  {type: "EDIT_ACTIVITY_RQ", payload: {id: "111"}})
         ).toEqual(
             {
                 activities: [],
                 error: undefined,
                 progress: {
                     add: false,
-                    edit: true,
+                    remove: [],
+                    edit: ["111"],
                     fetch: false
                 }
 
@@ -92,7 +97,12 @@ describe('activity reducer', () => {
         let payload = {id: '11-22-33', description: 'test act 1', date: 111111, done: true};
 
         const initial = {
-            error: undefined, progress: {add: false, edit: true, fetch: false},
+            error: undefined, progress: {
+                add: false,
+                remove: [],
+                edit: ["11-22-33"],
+                fetch: false
+            },
             activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}]
         };
         expect(
@@ -102,7 +112,7 @@ describe('activity reducer', () => {
                 ...initial,
                 progress: {
                     ...initial.progress,
-                    edit: false
+                    edit: []
                 },
                 activities: [payload]
             }

@@ -19,7 +19,9 @@ export interface FetchActivityRequestAction {
 }
 
 export interface EditActivityRequestAction {
-    type: 'EDIT_ACTIVITY_RQ'
+    type: 'EDIT_ACTIVITY_RQ',
+    payload: Activity
+
 }
 
 export interface EditActivityAction {

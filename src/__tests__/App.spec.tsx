@@ -20,14 +20,9 @@ describe('APP', () => {
     });
 
 
-    it('app should render NewActivity', function() {
+    it('app should render', function() {
         const [header] = container.props.children
-        expect(header.type).toBe(NewActivity)
+        expect(header.type).toBe("div")
     });
 
-
-    it('app should render ActivityList', function() {
-        const [, actList] = container.props.children
-        expect(actList.type).toBe(ActivityList)
-    });
 });

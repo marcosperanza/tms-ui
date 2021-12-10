@@ -9,14 +9,16 @@ import {
     SET_ACTIVITIES
 } from "../type";
 
+export type ProgressInfo = {
+    add: boolean,
+    fetch: boolean,
+    edit: string[],
+    remove: string[],
+}
+
 export type ActivityState = {
     activities: Activity[],
-    progress: {
-        add: boolean,
-        fetch: boolean,
-        edit: boolean,
-        remove: boolean,
-    },
+    progress: ProgressInfo,
     error: any
 }
 
@@ -24,9 +26,9 @@ export const initialState: ActivityState = {
     activities: [],
     progress: {
         add: false,
-        edit: false,
         fetch: false,
-        remove: false,
+        edit: [],
+        remove: [],
     },
     error: undefined
 }
@@ -77,7 +79,7 @@ const reducer = (
                 ...state,
                 progress: {
                     ...state.progress,
-                    edit: true
+                    edit: state.progress.edit.concat(action.payload.id!)
                 }
             }
         case REMOVE_ACTIVITY_RQ:
@@ -85,7 +87,7 @@ const reducer = (
                 ...state,
                 progress: {
                     ...state.progress,
-                    remove: true
+                    remove: state.progress.remove.concat(action.payload.id!)
                 }
             }
         case EDIT_ACTIVITY:
@@ -96,12 +98,14 @@ const reducer = (
             const c = [...state.activities];
             c.splice(start, 1, action.payload);
 
+            const e = [...state.progress.edit];
+            e.splice(state.progress.edit.indexOf(action.payload.id!), 1)
             return {
                 ...state,
                 error: undefined,
                 progress: {
                     ...state.progress,
-                    edit: false
+                    edit: e
                 },
                 activities: c,
             }
@@ -137,11 +141,14 @@ const reducer = (
             }
             const cloned = [...state.activities];
             cloned.splice(idx, 1);
+
+            const r = [...state.progress.remove];
+            r.splice(state.progress.remove.indexOf(action.payload.id!), 1)
             return {
                 ...state,
                 progress: {
                     ...state.progress,
-                    remove: false
+                    remove: r
                 },
                 activities: cloned,
             }
@@ -152,8 +159,9 @@ const reducer = (
                 progress: {
                     ...state.progress,
                     add: false,
-                    edit: false,
-                    fetch: false
+                    edit: [],
+                    fetch: false,
+                    remove: []
                 },
             }
     }
