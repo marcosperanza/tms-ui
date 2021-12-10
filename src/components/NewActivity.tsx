@@ -111,17 +111,38 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
     }
 
     onShowCal = () => {
+
         this.setState({
             showCal: true
         });
     }
+
+    renderCalendar = (touch: boolean) => {
+        return (
+            <Calendar id="icon"
+                      value={new Date(this.covertToLong(this.state.date))}
+                      touchUI={touch}
+                      inline={!touch}
+                      dateFormat="yy-mm-dd"
+                      onChange={(e) => this.setDate(e.value as Date)}
+                      className={classNames({
+                          'w-full': true,
+                          'md:hidden': touch
+                      })
+                  }/>
+        );
+    }
+
     render() {
         return (
             <div className="flex flex-row justify-content-end flex-wrap mt-6">
                 <Toast ref={this.toastBL} position="bottom-left" />
 
                 { !this.state.showNewDialogue &&
-                <Button id="open-new-activity-dialogue" label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={this.toggle}/>
+                <Button id="open-new-activity-dialogue"
+                        label="New"
+                        className="w-full p-button-sm mb-2 p-button-outlined p-button-secondary"
+                        onClick={this.toggle}/>
                 }
 
                 {
@@ -137,17 +158,19 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                         <div className="mt-4">
                             <label htmlFor="date">Date</label>
 
-                            <div className={'flex flex-row flex-nowrap'}>
+                            {this.renderCalendar(true)}
+
+                            <div className={'flex flex-row flex-nowrap md:hide'}>
                                 <InputMask id="date"
-                                            mask="9999-99-99"
-                                            slotChar="yyyy-mm-dd"
-                                            value={this.state.date}
-                                            className={classNames({
-                                                'w-full': true,
-                                                'p-invalid': this.state.error,
-                                                'no-round-border-right': true
-                                            })}
-                                            onChange={(e) => this.setDate(e.value)}/>
+                                           mask="9999-99-99"
+                                           slotChar="yyyy-mm-dd"
+                                           value={this.state.date}
+                                           className={classNames({
+                                               'w-full': true,
+                                               'p-invalid': this.state.error,
+                                               'no-round-border-right': true
+                                           })}
+                                           onChange={(e) => this.setDate(e.value)}/>
                                 <Button  className={'no-round-border-left'}
                                          icon="pi pi-external-link"
                                          onClick={() => this.onShowCal()}/>
@@ -157,12 +180,8 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                                         style={{width: '50vw'}}
                                         footer={this.renderFooter()}
                                         onHide={() => this.onHide()}>
-                                    <Calendar id="icon"
-                                              value={new Date(this.covertToLong(this.state.date))}
-                                              inline={true}
-                                              dateFormat="yy-mm-dd"
-                                              onChange={(e) => this.setDate(e.value as Date)}
-                                              className={'w-full'}/>
+
+                                    {this.renderCalendar(false)}
                                 </Dialog>
                             </div>
 
