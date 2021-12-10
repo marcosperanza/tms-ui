@@ -10,7 +10,7 @@
 
 .activity-item .date-item {
     font-size: small;
-    color: gray;
+    color: var(--surface-500);
 }
 
 .no-round-border-right {
@@ -20,6 +20,11 @@
 .no-round-border-left {
     border-bottom-left-radius:  0;
     border-top-left-radius:  0;
+}
+
+.header {
+    height: 40px;
+    background-color: var(--primary-color);
 }
 
 

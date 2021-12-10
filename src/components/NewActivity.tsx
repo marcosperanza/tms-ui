@@ -202,7 +202,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                                 id={'save-activity'}
                                 loading={this.props.progress}
                                 disabled={!(!!this.state.description && !!this.state.date && !this.state.error)}
-                                className="float-right p-button-sm mt-2 p-button-outlined p-button-primary"
+                                className="w-full p-button-sm mt-4 p-button-outlined p-button-primary"
                                 onClick={this.addNewActivity}/>
 
                     </div>
