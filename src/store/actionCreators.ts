@@ -25,3 +25,10 @@ export const editActivity = (activity: Activity, dispatch: Dispatch<any>) => {
         .then((value: Activity) => dispatch({type: "EDIT_ACTIVITY", payload: value}))
         .catch(reason => dispatch({type: "ERROR", payload: reason}))
 }
+
+export const removeActivity = (activity: Activity, dispatch: Dispatch<any>) => {
+    dispatch({type: "REMOVE_ACTIVITY_RQ"})
+    ActivityControllerService.remove(activity.id!)
+        .then((value: Activity) => dispatch({type: "REMOVE_ACTIVITY", payload: value}))
+        .catch(reason => dispatch({type: "ERROR", payload: reason}))
+}

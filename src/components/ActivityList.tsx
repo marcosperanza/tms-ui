@@ -7,6 +7,7 @@ type Props = {
     activities: Activity[];
     fetchActivities: () => void,
     doneToggle: (a: Activity) => void,
+    removeActivity: (a: Activity) => void,
 
 }
 
@@ -37,7 +38,12 @@ export class ActivityList extends React.Component<Props, ActivityListState> {
                 }
             )}>
                 {this.props.activities.length > 0 && this.props.activities.map((act, index) =>
-                    <ActivityItem key={index} activity={act!} doneToggle={this.props.doneToggle}/>
+                    <ActivityItem
+                        key={index}
+                        activity={act!}
+                        doneToggle={this.props.doneToggle}
+                        removeActivity={this.props.removeActivity}
+                    />
                 )}
                 {this.props.activities.length === 0 &&
                 <div className={'mx-auto'}> No activity found.</div>

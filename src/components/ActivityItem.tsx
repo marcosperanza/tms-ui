@@ -2,10 +2,12 @@ import React from 'react';
 import {Checkbox} from "primereact/checkbox";
 import {Activity} from "../generated/api";
 import {format} from "date-fns";
+import {Button} from "primereact/button";
 
 type Props = {
     activity: Activity
     doneToggle: (a: Activity) => void,
+    removeActivity: (a: Activity) => void,
 
 }
 
@@ -42,8 +44,16 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
                         <i className="pi pi-calendar p-mr-2"/> <span className={"date"}>{this.longToString(this.props.activity.date)}</span>
                     </div>
                 </div>
-                <div className="done-block p-field-checkbox my-auto">
-                    <Checkbox inputId="binary" checked={this.props.activity.done} onChange={e => this.setChecked(e.checked)} />
+                <div className="done-block my-auto flex flex-row ">
+                    <Checkbox inputId="binary"
+                              className={'my-auto'}
+                              checked={this.props.activity.done}
+                              onChange={e => this.setChecked(e.checked)} />
+
+                    <Button icon="pi pi-times"
+                            className="p-button-rounded p-button-text my-auto p-button-danger"
+                            onClick={(event) => this.props.removeActivity(this.props.activity) }
+                    />
                 </div>
             </div>);
     }

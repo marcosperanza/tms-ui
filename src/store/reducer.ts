@@ -5,7 +5,7 @@ import {
     ADD_ACTIVITY_RQ,
     AddActivityAction, EDIT_ACTIVITY, EDIT_ACTIVITY_RQ,
     ERROR,
-    FETCH_ACTIVITY_RQ,
+    FETCH_ACTIVITY_RQ, REMOVE_ACTIVITY, REMOVE_ACTIVITY_RQ,
     SET_ACTIVITIES
 } from "../type";
 
@@ -14,7 +14,8 @@ export type ActivityState = {
     progress: {
         add: boolean,
         fetch: boolean,
-        edit: boolean
+        edit: boolean,
+        remove: boolean,
     },
     error: any
 }
@@ -25,10 +26,30 @@ export const initialState: ActivityState = {
         add: false,
         edit: false,
         fetch: false,
+        remove: false,
     },
     error: undefined
 }
 
+
+/**
+ * Finde the index of the activity
+ * @param state the redux state
+ * @param id the id to look for
+ */
+const findActivityIndex = (state: ActivityState, id: string) => {
+    let start = -1;
+    for (let i = 0; i < state.activities.length; i++){
+        const a = state.activities[i];
+        if (a.id === id) {
+            start = i;
+            return start;
+
+        }
+    }
+    return start;
+
+}
 
 const reducer = (
     state: ActivityState = initialState,
@@ -59,18 +80,19 @@ const reducer = (
                     edit: true
                 }
             }
-        case EDIT_ACTIVITY:
-            let start = -1;
-            for (let i = 0; i < state.activities.length; i++){
-                const a = state.activities[i];
-                if (a.id === action.payload.id) {
-                    start = i;
+        case REMOVE_ACTIVITY_RQ:
+            return {
+                ...state,
+                progress: {
+                    ...state.progress,
+                    remove: true
                 }
             }
+        case EDIT_ACTIVITY:
+            let start = findActivityIndex(state, action.payload.id!);
             if (start === -1) {
                 return state
             }
-
             const c = [...state.activities];
             c.splice(start, 1, action.payload);
 
@@ -107,6 +129,21 @@ const reducer = (
                     add: false
                 },
                 activities: state.activities.concat(newArticle).sort((a1,a2) => a2.date! - a1.date!),
+            }
+        case REMOVE_ACTIVITY:
+            let idx = findActivityIndex(state, action.payload.id!);
+            if (idx === -1) {
+                return state
+            }
+            const cloned = [...state.activities];
+            cloned.splice(idx, 1);
+            return {
+                ...state,
+                progress: {
+                    ...state.progress,
+                    remove: false
+                },
+                activities: cloned,
             }
         case ERROR:
             return {
