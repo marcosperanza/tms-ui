@@ -12,12 +12,13 @@ describe('NewActivity suite', () => {
     beforeEach(() => {
         callBack = jest.fn();
         const renderer = createRenderer()
-        renderer.render(<NewActivity  createActivity={callBack} progress={false}/>);
+        renderer.render(<NewActivity  createActivity={callBack} progress={false} activities={[{id: ''}]} communicationError={undefined}/>);
         container = renderer.getRenderOutput();
         instance = renderer.getMountedInstance();
     });
 
     it('should render without throwing an error', function() {
+
         expect(container).not.toBeNull();
         expect(instance).not.toBeNull();
     });
@@ -31,6 +32,7 @@ describe('NewActivity suite', () => {
             date: '9999-99-192',
             description: '',
             showNewDialogue: false,
+            showCal: false,
             error: true,
 
         }).toEqual(instance.state);

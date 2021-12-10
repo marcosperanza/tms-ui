@@ -5,11 +5,16 @@ import {InputText} from "primereact/inputtext";
 import isMatch from 'date-fns/isMatch'
 import classNames from "classnames";
 import {Toast} from "primereact/toast";
+import {InputMask} from "primereact/inputmask";
+import {Calendar} from "primereact/calendar";
+import {Dialog} from "primereact/dialog";
+import {format} from "date-fns";
 
 type Props = {
     createActivity: (activity: Activity | any) => void,
     progress: boolean,
     communicationError: any
+    activities: Activity[],
 }
 
 type NewActivityState = {
@@ -17,6 +22,7 @@ type NewActivityState = {
     description: string,
     showNewDialogue: boolean,
     error: boolean,
+    showCal: boolean
 }
 
 export class NewActivity extends React.Component<Props, NewActivityState> {
@@ -41,8 +47,9 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         this.state = {
             date: '',
             description: '',
-            showNewDialogue: false,
+            showNewDialogue: props.activities?.length == 0,
             error: false,
+            showCal: false
         }
     }
 
@@ -54,6 +61,8 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         }
 
         this.props.createActivity(act);
+        this.setDate('');
+        this.setDescription('');
     }
 
     covertToLong = (date: string) => {
@@ -73,22 +82,46 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         });
     }
 
-    public setDate = (desc: string) => {
+    public setDate = (desc: string | Date) => {
+        let d: string;
+        if (desc instanceof Date) {
+            d = format(desc, 'yyyy-MM-dd');
+        } else {
+            d = desc as string;
+        }
         let err = false;
-        if (desc !== '' && !isMatch(desc, 'yyyy-MM-dd')) {
+        if (desc !== '' && !isMatch(d , 'yyyy-MM-dd')) {
             err = true;
         }
-        this.setState({date: desc, error: err});
+        this.setState({date: d, error: err});
     }
 
+    onHide = () => {
+        this.setState({
+            showCal: false
+        });
+    }
 
+    renderFooter = () => {
+        return (
+            <div>
+                <Button disabled={!this.state.date} label="Done" icon="pi pi-check" onClick={() =>  this.onHide()} autoFocus />
+            </div>
+        );
+    }
+
+    onShowCal = () => {
+        this.setState({
+            showCal: true
+        });
+    }
     render() {
         return (
             <div className="flex flex-row justify-content-end flex-wrap mt-6">
                 <Toast ref={this.toastBL} position="bottom-left" />
 
                 { !this.state.showNewDialogue &&
-                    <Button id="open-new-activity-dialogue" label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={this.toggle}/>
+                <Button id="open-new-activity-dialogue" label="New" className="float-right p-button-sm  mb-2 p-button-outlined p-button-secondary"  onClick={this.toggle}/>
                 }
 
                 {
@@ -103,13 +136,36 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                         </div>
                         <div className="mt-4">
                             <label htmlFor="date">Date</label>
-                            <InputText  id="date"
-                                        placeholder={'yyyy-mm-dd'}
-                                        className={classNames({
-                                            'w-full': true,
-                                            'p-invalid': this.state.error
-                                        })}
-                                        onChange={(e) => this.setDate(e.target.value)}/>
+
+                            <div className={'flex flex-row flex-nowrap'}>
+                                <InputMask id="date"
+                                            mask="9999-99-99"
+                                            slotChar="yyyy-mm-dd"
+                                            value={this.state.date}
+                                            className={classNames({
+                                                'w-full': true,
+                                                'p-invalid': this.state.error,
+                                                'no-round-border-right': true
+                                            })}
+                                            onChange={(e) => this.setDate(e.value)}/>
+                                <Button  className={'no-round-border-left'}
+                                         icon="pi pi-external-link"
+                                         onClick={() => this.onShowCal()}/>
+                                <Dialog header="Header" visible={this.state.showCal}
+                                        maximizable
+                                        modal
+                                        style={{width: '50vw'}}
+                                        footer={this.renderFooter()}
+                                        onHide={() => this.onHide()}>
+                                    <Calendar id="icon"
+                                              value={new Date(this.covertToLong(this.state.date))}
+                                              inline={true}
+                                              dateFormat="yy-mm-dd"
+                                              onChange={(e) => this.setDate(e.value as Date)}
+                                              className={'w-full'}/>
+                                </Dialog>
+                            </div>
+
                         </div>
 
                         <Button label="Save"

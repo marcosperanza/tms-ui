@@ -8,6 +8,7 @@ import {NewActivity} from "../components/NewActivity";
 const mapStateToProps = (state: ActivityState) => ({
     progress: state.progress.add,
     communicationError: state.error,
+    activities: state.activities,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
