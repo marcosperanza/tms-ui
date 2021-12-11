@@ -2,15 +2,39 @@ import React from 'react';
 import ActivityItem from "./ActivityItem";
 import {Activity} from "../generated/api";
 import classNames from "classnames";
-import {ProgressInfo} from "../store/reducer";
 import {ProgressSpinner} from "primereact/progressspinner";
+import {ProgressInfo} from "../type";
 
+
+/**
+ * the {@link ActivityList} properties
+ */
 type Props = {
+    /**
+     * the list of the activities, injected from the {@link ActivityList} container
+     */
     activities: Activity[];
+
+    /**
+     * the progress info, injected from the {@link ActivityList} container
+     */
+    loading: ProgressInfo,
+
+
+    /**
+     * fetch call back, used for retrieving trigger the activity fetch action
+     */
     fetchActivities: () => void,
+
+    /**
+     * make an activity as done
+     */
     doneToggle: (a: Activity) => void,
+
+    /**
+     * remove the activity call back. Used for trigger a remove actovity action
+     */
     removeActivity: (a: Activity) => void,
-    loading: ProgressInfo
 }
 
 type ActivityListState = {

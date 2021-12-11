@@ -10,13 +10,37 @@ import {Calendar} from "primereact/calendar";
 import {Dialog} from "primereact/dialog";
 import {format} from "date-fns";
 
+
+/**
+ * the {@link NewActivity} properties
+ */
 type Props = {
+    /**
+     * trigger a create activity action. used to send a new activity to the server
+     * @param activity the activity to be added
+     */
     createActivity: (activity: Activity | any) => void,
+
+    /**
+     * the progress info, injected from the NewActivity container
+     */
     progress: boolean,
+
+    /**
+     * the error info, injected from the NewActivity container
+     */
     communicationError: any
+
+    /**
+     * the activities list, injected from the NewActivity container
+     */
     activities: Activity[],
 }
 
+
+/**
+ * The internal component state.
+ */
 type NewActivityState = {
     date: string,
     description: string,
@@ -28,6 +52,10 @@ type NewActivityState = {
 export class NewActivity extends React.Component<Props, NewActivityState> {
     toastBL: any;
 
+
+    /**
+     * Lifecycle, used for rendering the errors.
+     */
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<NewActivityState>, snapshot?: any) {
         if (this.props?.communicationError && (prevProps.communicationError !== this.props?.communicationError)) {
             let statusText = this.props?.communicationError.statusText;
@@ -53,6 +81,9 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         }
     }
 
+    /**
+     * Add a new activity
+     */
     addNewActivity = ()  => {
         const act: Activity = {
             description: this.state.description,
@@ -65,10 +96,18 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         this.setDescription('');
     }
 
+
+    /**
+     * Convert a string into a long
+     */
     covertToLong = (date: string) => {
         return Date.parse(date);
     }
 
+
+    /**
+     * Toggles the show new activity dialogue flag
+     */
     toggle = () =>  {
         let prevState: boolean = this.state.showNewDialogue;
         this.setState({
@@ -76,12 +115,20 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         });
     }
 
+    /**
+     * set a description
+     * @param desc the activity description to be set into the internal state
+     */
     setDescription = (desc: string) => {
         this.setState({
             description: desc
         });
     }
 
+    /**
+     * set a date
+     * @param desc the activity date to be set into the internal state
+     */
     public setDate = (desc: string | Date) => {
         let d: string;
         if (desc instanceof Date) {
@@ -96,12 +143,18 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         this.setState({date: d, error: err});
     }
 
-    onHide = () => {
+    /**
+     * show/hide the calendar dialogue
+     */
+    setCalendarVisibility = (v: boolean) => {
         this.setState({
-            showCal: false
+            showCal: v
         });
     }
 
+    /**
+     * Render the footer of the calendar dialogue
+     */
     renderFooter = () => {
         return (
             <div>
@@ -110,18 +163,16 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                     label="Done"
                     icon="pi pi-check"
                     className={'p-button-sm p-button-outlined'}
-                    onClick={() =>  this.onHide()} autoFocus />
+                    onClick={() =>  this.setCalendarVisibility(false)} autoFocus />
             </div>
         );
     }
 
-    onShowCal = () => {
 
-        this.setState({
-            showCal: true
-        });
-    }
-
+    /**
+     * render the calendar dialogue
+     * @param touch true if the widget to be rendered must be optimized for the mobile
+     */
     renderCalendar = (touch: boolean) => {
         return (
             <Calendar id="icon"
@@ -184,13 +235,13 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                                            onChange={(e) => this.setDate(e.value)}/>
                                 <Button  className={'no-round-border-left'}
                                          icon="pi pi-calendar"
-                                         onClick={() => this.onShowCal()}/>
+                                         onClick={() => this.setCalendarVisibility(true)}/>
                                 <Dialog header="Header" visible={this.state.showCal}
                                         maximizable
                                         modal
                                         style={{width: '50vw'}}
                                         footer={this.renderFooter()}
-                                        onHide={() => this.onHide()}>
+                                        onHide={() => this.setCalendarVisibility(false)}>
 
                                     {this.renderCalendar(false)}
                                 </Dialog>

@@ -3,9 +3,12 @@ import {Checkbox} from "primereact/checkbox";
 import {Activity} from "../generated/api";
 import {format} from "date-fns";
 import {Button} from "primereact/button";
-import {ProgressInfo} from "../store/reducer";
 import classNames from "classnames";
+import {ProgressInfo} from "../type";
 
+/**
+ * The {@link ActivityItem}  properties.
+ */
 type Props = {
     activity: Activity
     doneToggle: (a: Activity) => void,
@@ -17,6 +20,9 @@ type ActivityItemState = {
 
 }
 
+/**
+ * Component for design the single activity item.
+ */
 export default class ActivityItem extends React.Component<Props, ActivityItemState> {
 
 
@@ -79,7 +85,4 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
                 </div>
             </div>);
     }
-
-
-
 }

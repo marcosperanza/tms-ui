@@ -70,6 +70,35 @@ export type Action =
     ErrorAction
 
 
+/**
+ * Progress info. Keep track of the current progress information
+ */
+export type ProgressInfo = {
+    /**
+     * true if the add action is in progress
+     */
+    add: boolean,
+
+    /**
+     * true if the fetch activities action is in progress
+     */
+    fetch: boolean,
+
+    /**
+     * edit {@link Activity} action is in progress
+     * the edit state will keep the list of the {@link Activity#id}s that currently have the editing in progress.
+     */
+    edit: string[],
+
+
+    /**
+     * the remove {@link Activity} action is in progress
+     * the edit state will keep the list of the {@link Activity#id}s that currently have the remove action in progress.
+     */
+    remove: string[],
+}
+
+
 export type DispatchType = (args: Action) => Action
 
 

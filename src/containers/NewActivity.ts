@@ -17,4 +17,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     }
 }
 
+/**
+ * The container of the {@link NewActivity} component. The goal of this container is to decoupling the redux pattern
+ * to the component itself.
+ * It inject the {@link ActivityState} in the component Props.
+ */
 export default connect(mapStateToProps, mapDispatchToProps)(NewActivity)

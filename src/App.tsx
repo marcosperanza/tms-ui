@@ -10,7 +10,7 @@ class App extends React.Component {
                 <div className="header flex flex-row">
                     <span className={'font-bold text-xl ml-2 my-auto title'}>Task Management System</span>
                 </div>
-                <div className="md:w-6 m-auto p-2">
+                <div className="md:w-6 md:m-auto p-2">
                     <NewActivity/>
                     <ActivityList/>
                 </div>

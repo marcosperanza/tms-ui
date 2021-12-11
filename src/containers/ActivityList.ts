@@ -17,5 +17,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
         removeActivity: (a: Activity) => removeActivity(a, dispatch)
     }
 }
+
+
+/**
+ * The container of the {@link ActivityList} component. The goal of this container is to decoupling the redux pattern
+ * to the component itself.
+ * It inject the {@link ActivityState} in the component Props.
+ */
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityList)
 

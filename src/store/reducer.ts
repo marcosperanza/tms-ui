@@ -3,25 +3,41 @@ import {
     Action,
     ADD_ACTIVITY,
     ADD_ACTIVITY_RQ,
-    AddActivityAction, EDIT_ACTIVITY, EDIT_ACTIVITY_RQ,
+    AddActivityAction,
+    EDIT_ACTIVITY,
+    EDIT_ACTIVITY_RQ,
     ERROR,
-    FETCH_ACTIVITY_RQ, REMOVE_ACTIVITY, REMOVE_ACTIVITY_RQ,
+    FETCH_ACTIVITY_RQ,
+    ProgressInfo,
+    REMOVE_ACTIVITY,
+    REMOVE_ACTIVITY_RQ,
     SET_ACTIVITIES
 } from "../type";
 
-export type ProgressInfo = {
-    add: boolean,
-    fetch: boolean,
-    edit: string[],
-    remove: string[],
-}
 
+/**
+ * The application state stored
+ */
 export type ActivityState = {
+    /**
+     * List of the activities
+     */
     activities: Activity[],
+
+    /**
+     * The progress info, useful for managing the transition states
+     */
     progress: ProgressInfo,
+
+    /**
+     * The error details
+     */
     error: any
 }
 
+/**
+ * Initial state
+ */
 export const initialState: ActivityState = {
     activities: [],
     progress: {
@@ -35,7 +51,7 @@ export const initialState: ActivityState = {
 
 
 /**
- * Finde the index of the activity
+ * Find the index of the activity
  * @param state the redux state
  * @param id the id to look for
  */
@@ -50,14 +66,22 @@ const findActivityIndex = (state: ActivityState, id: string) => {
         }
     }
     return start;
-
 }
 
+
+/**
+ * Main reducer
+ * @param state the current application state
+ * @param action the action dispatched
+ * @return the modified {@link ActivityState}
+ */
 const reducer = (
     state: ActivityState = initialState,
     action: Action
 ): ActivityState => {
     switch (action.type) {
+
+        /// Transition STATES
         case ADD_ACTIVITY_RQ:
             return {
                 ...state,
@@ -90,6 +114,9 @@ const reducer = (
                     remove: state.progress.remove.concat(action.payload.id!)
                 }
             }
+
+
+        /////
         case EDIT_ACTIVITY:
             let start = findActivityIndex(state, action.payload.id!);
             if (start === -1) {
@@ -152,6 +179,8 @@ const reducer = (
                 },
                 activities: cloned,
             }
+
+
         case ERROR:
             return {
                 ...state,
