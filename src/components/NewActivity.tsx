@@ -75,7 +75,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
         this.state = {
             date: '',
             description: '',
-            showNewDialogue: props.activities?.length == 0,
+            showNewDialogue: props.activities?.length === 0,
             error: false,
             showCal: false
         }
