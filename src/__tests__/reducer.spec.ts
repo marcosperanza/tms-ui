@@ -93,6 +93,24 @@ describe('activity reducer', () => {
         )
     })
 
+    it('should handle REMOVE_ACTIVITY_RQ', () => {
+        expect(
+            reducer(undefined,  {type: "REMOVE_ACTIVITY_RQ", payload: {id: "111"}})
+        ).toEqual(
+            {
+                activities: [],
+                error: undefined,
+                progress: {
+                    add: false,
+                    remove: ["111"],
+                    edit: [],
+                    fetch: false
+                }
+
+            }
+        )
+    })
+
     it('should edit an existing activity', () => {
         let payload = {id: '11-22-33', description: 'test act 1', date: 111111, done: true};
 
@@ -162,6 +180,35 @@ describe('activity reducer', () => {
             {
                 ...initialState,
                 error: {errorMessage: 'fake error'},
+            }
+        )
+    })
+
+
+    it('should remove activity', () => {
+        let payload =
+            {id: '11-22-33', description: 'test act 1', date: 1, done: true};
+
+        const initial = {
+            error: undefined, progress: {
+                add: false,
+                remove: ['11-22-33'],
+                edit: [],
+                fetch: false
+            },
+            activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}]
+        };
+
+        expect(
+            reducer(initial,  {type: "REMOVE_ACTIVITY", payload: payload})
+        ).toEqual(
+            {
+                ...initialState,
+                progress: {
+                    ...initial.progress,
+                    remove: []
+                },
+                activities: []
             }
         )
     })
