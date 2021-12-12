@@ -1,10 +1,10 @@
-import {Activity, ActivityControllerService} from "../generated/api";
+import {Activity, ActivityControllerService, LoginControllerService} from "../generated/api";
 import {
     ADD_ACTIVITY,
     ADD_ACTIVITY_RQ,
     EDIT_ACTIVITY,
     EDIT_ACTIVITY_RQ,
-    FETCH_ACTIVITY_RQ,
+    FETCH_ACTIVITY_RQ, LOGIN, LOGIN_RQ,
     REMOVE_ACTIVITY,
     REMOVE_ACTIVITY_RQ,
     SET_ACTIVITIES
@@ -69,5 +69,19 @@ export const removeActivity = (activity: Activity, dispatch: Dispatch<any>) => {
     dispatch({type: REMOVE_ACTIVITY_RQ, payload: activity})
     ActivityControllerService.remove(activity.id!)
         .then((value: Activity) => dispatch({type: REMOVE_ACTIVITY, payload: value}))
+        .catch(reason => dispatch({type: "ERROR", payload: reason}))
+}
+
+
+/**
+ * execute a simple basic authenticated login (only for demostration)
+ *
+ * @param dispatch the thunk
+ */
+
+export const login = (dispatch: Dispatch<any>) => {
+    dispatch({type: LOGIN_RQ})
+    LoginControllerService.simpleBasicLogin()
+        .then((value: string) => dispatch({type: LOGIN, payload: value}))
         .catch(reason => dispatch({type: "ERROR", payload: reason}))
 }

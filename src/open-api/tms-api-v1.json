@@ -4,6 +4,8 @@
   "basePath" : "/api",
   "tags" : [ {
     "name" : "ActivityController"
+  }, {
+    "name" : "LoginController"
   } ],
   "schemes" : [ "http" ],
   "paths" : {
@@ -52,6 +54,9 @@
           },
           "201" : {
             "description" : "Created"
+          },
+          "401" : {
+            "description" : "Unauthorized"
           },
           "500" : {
             "description" : "In case of error"
@@ -161,6 +166,26 @@
           },
           "404" : {
             "description" : "Not found"
+          },
+          "500" : {
+            "description" : "In case of error"
+          }
+        }
+      }
+    },
+    "/login" : {
+      "get" : {
+        "tags" : [ "LoginController" ],
+        "summary" : "Simple Login, tht uses basic auth",
+        "description" : "",
+        "operationId" : "simpleBasicLogin",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success|OK"
+          },
+          "401" : {
+            "description" : "UNAUTHORIZED"
           },
           "500" : {
             "description" : "In case of error"

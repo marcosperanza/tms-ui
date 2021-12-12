@@ -4,10 +4,12 @@ export const ADD_ACTIVITY_RQ = "ADD_ACTIVITY_RQ"
 export const FETCH_ACTIVITY_RQ = "FETCH_ACTIVITY_RQ"
 export const EDIT_ACTIVITY_RQ = "EDIT_ACTIVITY_RQ"
 export const REMOVE_ACTIVITY_RQ = "REMOVE_ACTIVITY_RQ"
+export const LOGIN_RQ = "LOGIN_RQ"
 export const SET_ACTIVITIES = "SET_ACTIVITIES"
 export const EDIT_ACTIVITY = "EDIT_ACTIVITY"
 export const ADD_ACTIVITY = "ADD_ACTIVITY"
 export const REMOVE_ACTIVITY = "REMOVE_ACTIVITY"
+export const LOGIN = "LOGIN"
 export const ERROR = "ERROR"
 
 export interface AddActivityRequestAction {
@@ -21,6 +23,10 @@ export interface FetchActivityRequestAction {
 export interface EditActivityRequestAction {
     type: 'EDIT_ACTIVITY_RQ',
     payload: Activity
+
+}
+export interface LoginRequestRequestAction {
+    type: 'LOGIN_RQ',
 
 }
 
@@ -52,6 +58,11 @@ export interface RemoveActivityAction {
     payload: Activity
 }
 
+export interface LoginActivityAction {
+    type: 'LOGIN',
+    payload: string
+}
+
 export interface ErrorAction {
     type: 'ERROR',
     payload: any
@@ -67,6 +78,8 @@ export type Action =
     EditActivityRequestAction |
     RemoveActivityAction |
     RemoveActivityRequestAction |
+    LoginActivityAction |
+    LoginRequestRequestAction |
     ErrorAction
 
 

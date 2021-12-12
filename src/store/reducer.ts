@@ -7,7 +7,7 @@ import {
     EDIT_ACTIVITY,
     EDIT_ACTIVITY_RQ,
     ERROR,
-    FETCH_ACTIVITY_RQ,
+    FETCH_ACTIVITY_RQ, LOGIN,
     ProgressInfo,
     REMOVE_ACTIVITY,
     REMOVE_ACTIVITY_RQ,
@@ -33,6 +33,9 @@ export type ActivityState = {
      * The error details
      */
     error: any
+
+
+    username: string
 }
 
 /**
@@ -46,7 +49,9 @@ export const initialState: ActivityState = {
         edit: [],
         remove: [],
     },
-    error: undefined
+    error: undefined,
+
+    username: ''
 }
 
 
@@ -179,7 +184,11 @@ const reducer = (
                 },
                 activities: cloned,
             }
-
+        case LOGIN:
+            return {
+                ...state,
+                username: action.payload
+            }
 
         case ERROR:
             return {

@@ -43,6 +43,11 @@
     color: var(--green-400);
 }
 
+.login
+{
+    color: white !important;
+}
+
 @media screen and (max-width: 768px) {
     .md\:hide {
         display: none !important;

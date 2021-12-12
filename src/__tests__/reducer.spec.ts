@@ -14,7 +14,8 @@ describe('activity reducer', () => {
                     edit: [],
                     fetch: false,
                     add: false
-                }
+                },
+                username: ''
             }
         )
     })
@@ -32,7 +33,8 @@ describe('activity reducer', () => {
                     edit: [],
                     fetch: false,
                     add: false
-                }
+                },
+                username: ''
 
             }
         )
@@ -50,7 +52,8 @@ describe('activity reducer', () => {
                     remove: [],
                     edit: [],
                     fetch: false
-                }
+                },
+                username: ''
 
             }
         )
@@ -68,7 +71,8 @@ describe('activity reducer', () => {
                     remove: [],
                     edit: [],
                     fetch: true
-                }
+                },
+                username: ''
 
             }
         )
@@ -87,7 +91,8 @@ describe('activity reducer', () => {
                     remove: [],
                     edit: ["111"],
                     fetch: false
-                }
+                },
+                username: ''
 
             }
         )
@@ -105,7 +110,8 @@ describe('activity reducer', () => {
                     remove: ["111"],
                     edit: [],
                     fetch: false
-                }
+                },
+                username: ''
 
             }
         )
@@ -196,7 +202,8 @@ describe('activity reducer', () => {
                 edit: [],
                 fetch: false
             },
-            activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}]
+            activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}],
+            username: ''
         };
 
         expect(
@@ -208,7 +215,8 @@ describe('activity reducer', () => {
                     ...initial.progress,
                     remove: []
                 },
-                activities: []
+                activities: [],
+                username: ''
             }
         )
     })

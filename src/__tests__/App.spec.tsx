@@ -5,7 +5,8 @@ import {Provider} from "react-redux";
 import configureStore from 'redux-mock-store'
 import {createRenderer} from "react-test-renderer/shallow";
 import NewActivity from "../containers/NewActivity";
-import ActivityList from "../containers/ActivityList"; //ES6 modules
+import ActivityList from "../containers/ActivityList";
+import Header from "../containers/Header";
 
 const mockStore = configureStore([])
 
@@ -22,7 +23,7 @@ describe('APP', () => {
 
     it('app should render', function() {
         const [header] = container.props.children
-        expect(header.type).toBe("div")
+        expect(header.type).toBe(Header)
     });
 
 });
