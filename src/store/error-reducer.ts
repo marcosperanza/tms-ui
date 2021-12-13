@@ -41,7 +41,6 @@ const errorReducer = (
                 error: undefined,
             }
     }
-    return state
 }
 
 export default errorReducer
