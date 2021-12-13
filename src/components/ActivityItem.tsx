@@ -5,6 +5,7 @@ import {format} from "date-fns";
 import {Button} from "primereact/button";
 import classNames from "classnames";
 import {ProgressInfo} from "../type";
+import {confirmPopup} from "primereact/confirmpopup";
 
 /**
  * The {@link ActivityItem}  properties.
@@ -17,7 +18,6 @@ type Props = {
 }
 
 type ActivityItemState = {
-
 }
 
 /**
@@ -45,6 +45,18 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
         return this.props.loading.edit.indexOf(this.props.activity.id!) !== -1
                 || this.props.loading.remove.indexOf(this.props.activity.id!) !== -1
     }
+
+    accept = () => { this.props.removeActivity(this.props.activity) };
+
+    confirm1 = (event: any) => {
+        confirmPopup({
+            target: event.currentTarget,
+            message: 'Are you sure you want to proceed?',
+            icon: 'pi pi-exclamation-triangle',
+            accept: this.accept
+        });
+    };
+
 
     render() {
         return (
@@ -78,10 +90,12 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
 
                     <Button icon="pi pi-times"
                             disabled={this.isLoading()}
+                            id={'activity' + this.props.activity.id}
 
                             className="p-button-rounded p-button-text my-auto p-button-danger"
-                            onClick={(event) => this.props.removeActivity(this.props.activity) }
+                            onClick={this.confirm1}
                     />
+
                 </div>
             </div>);
     }
