@@ -1,5 +1,4 @@
 import React from 'react';
-import {Activity} from "../generated/api";
 import {Button} from "primereact/button";
 
 
