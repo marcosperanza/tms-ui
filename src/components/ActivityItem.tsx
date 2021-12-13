@@ -92,8 +92,6 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
 
                     <Button icon="pi pi-times"
                             disabled={this.isLoading()}
-                            id={'activity' + this.props.activity.id}
-
                             className="p-button-rounded p-button-text my-auto p-button-danger"
                             onClick={this.confirm1}
                     />
