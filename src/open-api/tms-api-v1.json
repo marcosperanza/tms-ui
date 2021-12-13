@@ -170,7 +170,7 @@
         }
       }
     },
-    "/login" : {
+    "/auth" : {
       "get" : {
         "tags" : [ "LoginController" ],
         "summary" : "Simple Login, tht uses basic auth",
@@ -190,7 +190,7 @@
         }
       }
     },
-    "/login/username" : {
+    "/auth/username" : {
       "get" : {
         "tags" : [ "LoginController" ],
         "summary" : "Get logged username",
@@ -206,6 +206,23 @@
           },
           "500" : {
             "description" : "In case of error"
+          }
+        }
+      }
+    },
+    "/auth/logout" : {
+      "get" : {
+        "tags" : [ "LoginController" ],
+        "summary" : "Logout",
+        "description" : "",
+        "operationId" : "logout",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "UNAUTHORIZED"
           }
         }
       }
