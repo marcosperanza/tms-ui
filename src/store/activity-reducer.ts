@@ -6,10 +6,7 @@ import {
     AddActivityAction,
     EDIT_ACTIVITY,
     EDIT_ACTIVITY_RQ,
-    ERROR,
     FETCH_ACTIVITY_RQ,
-    LOGIN,
-    LOGIN_USERNAME,
     ProgressInfo,
     REMOVE_ACTIVITY,
     REMOVE_ACTIVITY_RQ,
@@ -31,13 +28,6 @@ export type ActivityState = {
      */
     progress: ProgressInfo,
 
-    /**
-     * The error details
-     */
-    error: any
-
-
-    username: string
 }
 
 /**
@@ -50,10 +40,7 @@ export const initialState: ActivityState = {
         fetch: false,
         edit: [],
         remove: [],
-    },
-    error: undefined,
-
-    username: ''
+    }
 }
 
 
@@ -82,7 +69,7 @@ const findActivityIndex = (state: ActivityState, id: string) => {
  * @param action the action dispatched
  * @return the modified {@link ActivityState}
  */
-const reducer = (
+const activityReducer = (
     state: ActivityState = initialState,
     action: Action
 ): ActivityState => {
@@ -136,7 +123,6 @@ const reducer = (
             e.splice(state.progress.edit.indexOf(action.payload.id!), 1)
             return {
                 ...state,
-                error: undefined,
                 progress: {
                     ...state.progress,
                     edit: e
@@ -146,7 +132,6 @@ const reducer = (
         case SET_ACTIVITIES:
             return {
                 ...state,
-                error: undefined,
                 progress: {
                     ...state.progress,
                     fetch: false
@@ -186,27 +171,9 @@ const reducer = (
                 },
                 activities: cloned,
             }
-        case LOGIN:
-        case LOGIN_USERNAME:
-            return {
-                ...state,
-                username: action.payload
-            }
 
-        case ERROR:
-            return {
-                ...state,
-                error: action.payload,
-                progress: {
-                    ...state.progress,
-                    add: false,
-                    edit: [],
-                    fetch: false,
-                    remove: []
-                },
-            }
     }
     return state
 }
 
-export default reducer
+export default activityReducer

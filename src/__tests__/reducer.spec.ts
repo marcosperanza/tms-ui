@@ -1,21 +1,19 @@
-import reducer, {initialState} from "../store/reducer";
+import activityReducer, {ActivityState, initialState} from "../store/activity-reducer";
 
 
 describe('activity reducer', () => {
     it('should handle initial state', () => {
         expect(
-            reducer(undefined,  {} as any)
+            activityReducer(undefined,  {} as any)
         ).toEqual(
             {
                 activities: [],
-                error: undefined,
                 progress: {
                     remove: [],
                     edit: [],
                     fetch: false,
                     add: false
                 },
-                username: ''
             }
         )
     })
@@ -23,57 +21,48 @@ describe('activity reducer', () => {
     it('should add a new activity', () => {
         let payload = {id: '11-22-33', description: 'test act 1', date: 111111, done: false};
         expect(
-            reducer(undefined,  {type: "ADD_ACTIVITY", payload: payload})
+            activityReducer(undefined,  {type: "ADD_ACTIVITY", payload: payload})
         ).toEqual(
             {
                 activities: [payload],
-                error: undefined,
                 progress: {
                     remove: [],
                     edit: [],
                     fetch: false,
                     add: false
                 },
-                username: ''
-
             }
         )
     })
 
     it('should handle ADD_ACTIVITY_RQ', () => {
         expect(
-            reducer(undefined,  {type: "ADD_ACTIVITY_RQ"})
+            activityReducer(undefined,  {type: "ADD_ACTIVITY_RQ"})
         ).toEqual(
             {
                 activities: [],
-                error: undefined,
                 progress: {
                     add: true,
                     remove: [],
                     edit: [],
                     fetch: false
                 },
-                username: ''
-
             }
         )
     })
 
     it('should handle FETCH_ACTIVITY_RQ', () => {
         expect(
-            reducer(undefined,  {type: "FETCH_ACTIVITY_RQ"})
+            activityReducer(undefined,  {type: "FETCH_ACTIVITY_RQ"})
         ).toEqual(
             {
                 activities: [],
-                error: undefined,
                 progress: {
                     add: false,
                     remove: [],
                     edit: [],
                     fetch: true
                 },
-                username: ''
-
             }
         )
     })
@@ -81,38 +70,32 @@ describe('activity reducer', () => {
 
     it('should handle EDIT_ACTIVITY_RQ', () => {
         expect(
-            reducer(undefined,  {type: "EDIT_ACTIVITY_RQ", payload: {id: "111"}})
+            activityReducer(undefined,  {type: "EDIT_ACTIVITY_RQ", payload: {id: "111"}})
         ).toEqual(
             {
                 activities: [],
-                error: undefined,
                 progress: {
                     add: false,
                     remove: [],
                     edit: ["111"],
                     fetch: false
                 },
-                username: ''
-
             }
         )
     })
 
     it('should handle REMOVE_ACTIVITY_RQ', () => {
         expect(
-            reducer(undefined,  {type: "REMOVE_ACTIVITY_RQ", payload: {id: "111"}})
+            activityReducer(undefined,  {type: "REMOVE_ACTIVITY_RQ", payload: {id: "111"}})
         ).toEqual(
             {
                 activities: [],
-                error: undefined,
                 progress: {
                     add: false,
                     remove: ["111"],
                     edit: [],
                     fetch: false
                 },
-                username: ''
-
             }
         )
     })
@@ -130,7 +113,7 @@ describe('activity reducer', () => {
             activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}]
         };
         expect(
-            reducer(initial,  {type: "EDIT_ACTIVITY", payload: payload})
+            activityReducer(initial,  {type: "EDIT_ACTIVITY", payload: payload})
         ).toEqual(
             {
                 ...initial,
@@ -151,7 +134,7 @@ describe('activity reducer', () => {
         ]
 
         expect(
-            reducer(undefined,  {type: "SET_ACTIVITIES", payload: payload})
+            activityReducer(undefined,  {type: "SET_ACTIVITIES", payload: payload})
         ).toEqual(
             {
                 ...initialState,
@@ -167,47 +150,37 @@ describe('activity reducer', () => {
     it('should not change state if activity doesnt exist', () => {
         let payload = {id: 'not exists', description: 'test act 1', date: 111111, done: true};
 
-        const initial = {
-            error: undefined, progress: {add: false, edit: false, fetch: false},
-            activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}]
-        };
+        const initial: ActivityState = {
+            activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}],
+            progress: {
+                add: false,
+                fetch: false,
+                edit: [],
+                remove: [],
+        }}
         expect(
-            reducer(initial,  {type: "EDIT_ACTIVITY", payload: payload})
+            activityReducer(initial,  {type: "EDIT_ACTIVITY", payload: payload})
         ).toEqual(
             initial
         )
     })
-
-    it('should add a error', () => {
-        let payload = {errorMessage: 'fake error'};
-        expect(
-            reducer(undefined,  {type: "ERROR", payload: payload})
-        ).toEqual(
-            {
-                ...initialState,
-                error: {errorMessage: 'fake error'},
-            }
-        )
-    })
-
 
     it('should remove activity', () => {
         let payload =
             {id: '11-22-33', description: 'test act 1', date: 1, done: true};
 
         const initial = {
-            error: undefined, progress: {
+            progress: {
                 add: false,
                 remove: ['11-22-33'],
                 edit: [],
                 fetch: false
             },
             activities: [{id: '11-22-33', description: 'test act 1', date: 111111, done: false}],
-            username: ''
         };
 
         expect(
-            reducer(initial,  {type: "REMOVE_ACTIVITY", payload: payload})
+            activityReducer(initial,  {type: "REMOVE_ACTIVITY", payload: payload})
         ).toEqual(
             {
                 ...initialState,
@@ -216,7 +189,6 @@ describe('activity reducer', () => {
                     remove: []
                 },
                 activities: [],
-                username: ''
             }
         )
     })

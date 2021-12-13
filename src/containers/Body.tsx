@@ -1,11 +1,11 @@
-import {ActivityState} from "../store/reducer";
 import {Dispatch} from "react";
 import {connect} from "react-redux";
 import {Body} from "../components/Body";
 import {loginUserName} from "../store/actionCreators";
+import {RootState} from "../store";
 
-const mapStateToProps = (state: ActivityState) => ({
-    username: state.username,
+const mapStateToProps = (state: RootState) => ({
+    username: state.login.username,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {

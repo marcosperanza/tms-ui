@@ -1,14 +1,14 @@
-import {ActivityState} from "../store/reducer";
 import {Dispatch} from "react";
 import {Activity} from "../generated/api";
 import {addActivity} from "../store/actionCreators";
 import {connect} from "react-redux";
 import {NewActivity} from "../components/NewActivity";
+import {RootState} from "../store";
 
-const mapStateToProps = (state: ActivityState) => ({
-    progress: state.progress.add,
-    communicationError: state.error,
-    activities: state.activities,
+const mapStateToProps = (state: RootState) => ({
+    progress: state.activity.progress.add,
+    communicationError: state.error.error,
+    activities: state.activity.activities,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {

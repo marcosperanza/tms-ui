@@ -1,14 +1,14 @@
-import {ActivityState} from "../store/reducer";
 import {connect} from "react-redux";
 import {ActivityList} from "../components/ActivityList";
 import {Dispatch} from "react";
 import {editActivity, fetchActivities, removeActivity} from "../store/actionCreators";
 import {Activity} from "../generated/api";
+import {RootState} from "../store";
 
-const mapStateToProps = (state: ActivityState) => ({
-    activities: state.activities,
-    loading: state.progress,
-    username: state.username,
+const mapStateToProps = (state: RootState) => ({
+    activities: state.activity.activities,
+    loading: state.activity.progress,
+    username: state.login.username,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
