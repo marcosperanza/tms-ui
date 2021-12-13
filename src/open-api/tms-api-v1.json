@@ -55,9 +55,6 @@
           "201" : {
             "description" : "Created"
           },
-          "401" : {
-            "description" : "Unauthorized"
-          },
           "500" : {
             "description" : "In case of error"
           }
@@ -179,6 +176,26 @@
         "summary" : "Simple Login, tht uses basic auth",
         "description" : "",
         "operationId" : "simpleBasicLogin",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success|OK"
+          },
+          "401" : {
+            "description" : "UNAUTHORIZED"
+          },
+          "500" : {
+            "description" : "In case of error"
+          }
+        }
+      }
+    },
+    "/login/username" : {
+      "get" : {
+        "tags" : [ "LoginController" ],
+        "summary" : "Get logged username",
+        "description" : "",
+        "operationId" : "loggedUserName",
         "parameters" : [ ],
         "responses" : {
           "200" : {

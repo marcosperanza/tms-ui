@@ -29,7 +29,7 @@ export class Header extends React.Component<Props, HeaderState> {
                 <div className={'flex flex-row login my-auto'}>
                     <span className={'my-auto'}>{this.props.username}</span>
                     <Button icon="pi pi-user"
-                            disabled={this.props.username !== ''}
+                            disabled={ this.props.username !== '' && this.props.username !== 'guest'}
                             className="p-button-rounded p-button-info p-button-text login"  onClick={this.props.login}/>
                 </div>
             </div>);

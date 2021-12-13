@@ -10,6 +10,7 @@ export const EDIT_ACTIVITY = "EDIT_ACTIVITY"
 export const ADD_ACTIVITY = "ADD_ACTIVITY"
 export const REMOVE_ACTIVITY = "REMOVE_ACTIVITY"
 export const LOGIN = "LOGIN"
+export const LOGIN_USERNAME = "LOGIN_USERNAME"
 export const ERROR = "ERROR"
 
 export interface AddActivityRequestAction {
@@ -63,6 +64,11 @@ export interface LoginActivityAction {
     payload: string
 }
 
+export interface LoginUNActivityAction {
+    type: 'LOGIN_USERNAME',
+    payload: string
+}
+
 export interface ErrorAction {
     type: 'ERROR',
     payload: any
@@ -80,6 +86,7 @@ export type Action =
     RemoveActivityRequestAction |
     LoginActivityAction |
     LoginRequestRequestAction |
+    LoginUNActivityAction |
     ErrorAction
 
 

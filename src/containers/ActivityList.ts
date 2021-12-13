@@ -8,6 +8,7 @@ import {Activity} from "../generated/api";
 const mapStateToProps = (state: ActivityState) => ({
     activities: state.activities,
     loading: state.progress,
+    username: state.username,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {

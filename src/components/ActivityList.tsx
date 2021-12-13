@@ -20,6 +20,10 @@ type Props = {
      */
     loading: ProgressInfo,
 
+    /**
+     * the progress info, injected from the {@link ActivityList} container
+     */
+    username: string,
 
     /**
      * fetch call back, used for retrieving trigger the activity fetch action
@@ -52,6 +56,14 @@ export class ActivityList extends React.Component<Props, ActivityListState> {
         this.props.fetchActivities();
     }
 
+    /**
+     * Lifecycle, used for rendering the user login changes.
+     */
+    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<ActivityListState>, snapshot?: any) {
+        if (this.props?.username && (prevProps.username !== this.props?.username)) {
+            this.props.fetchActivities();
+        }
+    }
     render() {
         return (
             <div id="activity-list" className={classNames({

@@ -6,7 +6,7 @@ import {
     EDIT_ACTIVITY_RQ,
     FETCH_ACTIVITY_RQ,
     LOGIN,
-    LOGIN_RQ,
+    LOGIN_RQ, LOGIN_USERNAME,
     REMOVE_ACTIVITY,
     REMOVE_ACTIVITY_RQ,
     SET_ACTIVITIES
@@ -85,5 +85,17 @@ export const login = (dispatch: Dispatch<any>) => {
     dispatch({type: LOGIN_RQ})
     LoginControllerService.simpleBasicLogin()
         .then((value: string) => dispatch({type: LOGIN, payload: value}))
+        .catch(reason => dispatch({type: "ERROR", payload: reason}))
+}
+
+/**
+ * execute a simple basic authenticated login (only for demostration)
+ *
+ * @param dispatch the thunk
+ */
+
+export const loginUserName = (dispatch: Dispatch<any>) => {
+    LoginControllerService.loggedUserName()
+        .then((value: string) => dispatch({type: LOGIN_USERNAME, payload: value}))
         .catch(reason => dispatch({type: "ERROR", payload: reason}))
 }

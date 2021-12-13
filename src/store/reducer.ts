@@ -8,7 +8,7 @@ import {
     EDIT_ACTIVITY_RQ,
     ERROR,
     FETCH_ACTIVITY_RQ,
-    LOGIN,
+    LOGIN, LOGIN_USERNAME,
     ProgressInfo,
     REMOVE_ACTIVITY,
     REMOVE_ACTIVITY_RQ,
@@ -186,6 +186,7 @@ const reducer = (
                 activities: cloned,
             }
         case LOGIN:
+        case LOGIN_USERNAME:
             return {
                 ...state,
                 username: action.payload
