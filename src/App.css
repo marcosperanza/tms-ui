@@ -2,10 +2,19 @@
   float: right !important;
 }
 
-
+.description-block {
+    min-width: 0;
+}
 .activity-item .description-item {
     font-size: larger;
     font-weight: bold;
+    /*white-space: nowrap;*/
+    /* order: 1; */
+    flex: 0 1 auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-width: 0px;
+    padding-right: 20px;
 }
 
 .activity-item .date-item {

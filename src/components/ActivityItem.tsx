@@ -6,6 +6,7 @@ import {Button} from "primereact/button";
 import classNames from "classnames";
 import {ProgressInfo} from "../type";
 import {confirmPopup} from "primereact/confirmpopup";
+import {Tooltip} from "primereact/tooltip";
 
 /**
  * The {@link ActivityItem}  properties.
@@ -74,7 +75,8 @@ export default class ActivityItem extends React.Component<Props, ActivityItemSta
                "done": this.props.activity.done
             })}>
                 <div className="description-block flex flex-column flex-nowrap">
-                    <div className="description-item" >
+                    <Tooltip target=".description-item" />
+                    <div data-pr-tooltip={this.props.activity.description} className="description-item" >
                         {this.props.activity.description}
                     </div>
                     <div className="date-item my-2">
