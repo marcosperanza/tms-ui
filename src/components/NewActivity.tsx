@@ -236,7 +236,7 @@ export class NewActivity extends React.Component<Props, NewActivityState> {
                                 <Button  className={'no-round-border-left'}
                                          icon="pi pi-calendar"
                                          onClick={() => this.setCalendarVisibility(true)}/>
-                                <Dialog header="Header" visible={this.state.showCal}
+                                <Dialog visible={this.state.showCal}
                                         maximizable
                                         modal
                                         style={{width: '50vw'}}
