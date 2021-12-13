@@ -2,7 +2,6 @@ import {ActivityState} from "../store/reducer";
 import {Dispatch} from "react";
 import {login} from "../store/actionCreators";
 import {connect} from "react-redux";
-import {NewActivity} from "../components/NewActivity";
 import {Header} from "../components/Header";
 
 const mapStateToProps = (state: ActivityState) => ({
